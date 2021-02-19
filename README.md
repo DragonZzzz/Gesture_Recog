@@ -16,7 +16,15 @@
 
 ### 数据说明
 
-数据采用https://www.kaggle.com/gti-upm/leapgestrecog 中的手势数据集，其中数据集均为灰度图片，总共20000张，并未划分训练集和测试集合。为此，我们在后续尝试了不同的划分方式:按人划分和随机划分。 默认采用按人划分，具体方式定义在`./datasets/hand_dataset.py`中，可自行修改。
+数据采用https://www.kaggle.com/gti-upm/leapgestrecog 中的手势数据集，其中数据集均为灰度图片，总共20000张，并未划分训练集和测试集合。为此，我们在后续尝试了不同的划分方式:按人划分和随机划分。 默认采用按人划分，具体方式定义在`./datasets/hand_dataset.py`中，可自行修改。数据下载好放在`./data`中。
+
+```
+# move the dataset to the dictionary
+cp -r /path/to/dataset ./ 
+
+# Rename to data
+mv leapGestRecog data
+```
 
 ### 网络结构说明
 网络采用了ResNet18作为分类网络，并且可以对分类网络进行替换，替换为ResNet50、DenseNet、VGG等不同的分类网络进行测试。可在`config.py`中进行指定。

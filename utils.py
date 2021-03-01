@@ -39,7 +39,7 @@ def plot_acc_loss(path_prefix, loss, acc):
     plt.draw()
     plt.show()
 
-def plot_embedding_with_label(data, label, title):
+def plot_embedding_with_label(data, label, epoch, title):
     """
     :param data:数据集
     :param label:样本标签
@@ -55,27 +55,27 @@ def plot_embedding_with_label(data, label, title):
     # 遍历所有样本
     for i in range(data.shape[0]):
         # 在图中为每个数据点画出标签
-        plt.text(data[i, 0], data[i, 1], str(label[i]), color=plt.cm.Set1(label[i] / 10),
+        plt.text(data[i, 0], data[i, 1], str(label[i]), color=plt.cm.Set1(label[i] / 24),
                  fontdict={'weight': 'bold', 'size': 10})
     # 指定坐标的刻度
     plt.xticks()        
     plt.yticks()
     plt.title(title, fontsize=14)
-    plt.savefig('./plots/figure.png')
+    plt.savefig('./plots/figure_'+ epoch +'.png')
     plt.show()
     
 
-def plot_embedding_with_image(data, images, title):
+def plot_embedding_with_image(data, images, epoch, title):
 
     fig, ax = plt.subplots()
     fig.set_size_inches(21.6, 14.4)
     plt.axis('off')
     imscatter(data[:, 0], data[:, 1], images, zoom=0.1, ax=ax)
-    plt.savefig('./plots/figure_img.png')
+    plt.savefig('./plots/figure_img_'+ epoch +'.png')
     plt.show()
 
 
-def plot_embedding_with_circle(data, label, title):
+def plot_embedding_with_circle(data, label, epoch, title):
     # 对数据进行归一化处理
     x_min, x_max = np.min(data, 0), np.max(data, 0)
     data = (data - x_min) / (x_max - x_min)  
@@ -83,8 +83,8 @@ def plot_embedding_with_circle(data, label, title):
     fig.set_size_inches(21.6, 14.4)
     plt.axis('off')
     for i in range(data.shape[0]):
-        plt.scatter(data[i,0], data[i,1], c=plt.cm.Set1(label[i] / 10), marker='o', edgecolors='none')
-    plt.savefig('./plots/figure_circle.png')
+        plt.scatter(data[i,0], data[i,1], c=plt.cm.Set1(label[i] / 24), marker='o', edgecolors='none')
+    plt.savefig('./plots/figure_circle_' + epoch + '.png')
     plt.show()
 
 def imscatter(x, y, images, ax=None, zoom=1):

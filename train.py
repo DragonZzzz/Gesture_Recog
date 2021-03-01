@@ -8,8 +8,8 @@ from tqdm import tqdm
 import json
 import os
 import argparse
-from datasets.hand_dataset import TrainDataset, TestDataset
-from datasets.hand_dataset import make_train_test_split_random, make_train_test_split
+from datasets.asl_dataset import TrainDataset, TestDataset
+from datasets.asl_dataset import make_train_test_split
 
 from models.resnet import resnet50, resnet18 
 from models.densenet import densenet121
@@ -85,7 +85,7 @@ def validation(model:nn.Sequential, test_loader:torch.utils.data.DataLoader, opt
 
 def parse_args():
     parser = argparse.ArgumentParser(usage='python3 train.py -i path/to/data -r path/to/checkpoint')
-    parser.add_argument('-i', '--data_path', help='path to your datasets', default='./data')
+    parser.add_argument('-i', '--data_path', help='path to your datasets', default='./dataset5')
     parser.add_argument('-d', '--data_file_path', help='path to your datasets split', default=None)
     parser.add_argument('-r', '--restore_from', help='path to the checkpoint', default=None)
     args = parser.parse_args()
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     data_path = args.data_path
     restore_from = args.restore_from
     base_model = config.model_name
-    num_classes = config.num_classes
+    num_classes = config.num_classes    
     data_split = args.data_file_path
 
 

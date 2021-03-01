@@ -4,6 +4,7 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader
 import torchvision
 from sklearn.metrics import accuracy_score, adjusted_mutual_info_score, adjusted_rand_score
+from sklearn.cluster import MiniBatchKMeans, KMeans
 
 from tqdm import tqdm
 import json
@@ -65,10 +66,13 @@ def test(model:nn.Sequential, test_loader:torch.utils.data.DataLoader, device:in
     # 利用tSNE算法可视化聚类结果
     if args.visualization:
         tsne = TSNE(n_components=2, init='pca')
+        
+        # kmeans = KMeans(init='k-means++', n_clusters=3, n_init=10)
+        epoch = args.restore_from.split('/')[-1].split('.')[0]
         embedding = tsne.fit_transform(features)
-        plot_embedding_with_label(embedding, y_gd, 't-SNE visualization')
-        plot_embedding_with_image(embedding, X_in, 't-SNE visualization')
-        plot_embedding_with_circle(embedding, y_gd, 't-SNE visualization')
+        plot_embedding_with_label(embedding, y_gd, epoch, 't-SNE visualization')
+        plot_embedding_with_image(embedding, X_in, epoch, 't-SNE visualization')
+        plot_embedding_with_circle(embedding, y_gd, epoch, 't-SNE visualization')
     return test_loss, test_acc
 
 def parse_args():
@@ -85,8 +89,9 @@ if __name__ == "__main__":
     restore_from = args.restore_from
     base_model = config.model_name
     num_classes = config.num_classes
-    # data_split = '/'.join(restore_from.split('/')[:-1]) + '/data_info.json'
-    data_split = './checkpoints/0218_lr1e-6_resnet18_norandom/data_info.json'
+    data_split = '/'.join(restore_from.split('/')[:-1]) + '/data_info.json'
+    # data_split = './checkpoints/0217_lr1e-5_resnet18/data_info.json'
+    
     # 划分训练集和测试集
     with open(data_split, 'r') as f:
         data_info = json.load(f)

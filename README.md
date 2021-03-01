@@ -16,7 +16,7 @@
 
 ### 数据说明
 
-数据采用asl数据集（https://www.kaggle.com/mrgeislinger/asl-rgb-depth-fingerspelling-spelling-it-out/code?datasetId=122788&sortBy=voteCount）。采用其中的RGB图片进行训练，训练集和测试集合按9:1的比例划分。具体方式定义在`./datasets/asl_dataset.py`中，可自行修改。数据下载解压好在主目录`./dataset5`中。
+数据采用asl数据集(https://www.kaggle.com/mrgeislinger/asl-rgb-depth-fingerspelling-spelling-it-out/code?datasetId=122788&sortBy=voteCount)。采用其中的RGB图片进行训练，训练集和测试集合按9:1的比例划分。具体方式定义在`./datasets/asl_dataset.py`中，可自行修改。数据下载解压好在主目录`./dataset5`中。
 
 
 ### 网络结构说明
@@ -40,5 +40,5 @@ CUDA_VISIBLE_DEVICES=0 python test.py -r ./checkpoints/xxxxxx(训练模型路径
 测试中`-v`会生成对应的聚类可视化结果，保存在`./plots`中。并且输出测试集准确率、互信息和兰德系数，并计算互信息和兰德系数的调和平均。
 
 
-![avatar](./plots/figure.png)
+![avatar](./plots/figure_circle_ep-39.png)
 

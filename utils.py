@@ -1,7 +1,7 @@
-import numpy as np 
-from PIL import Image
 import matplotlib 
 matplotlib.use('Agg')
+import numpy as np 
+from PIL import Image
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import matplotlib.pyplot as plt 
 from mpl_toolkits.axes_grid1 import host_subplot
@@ -37,7 +37,7 @@ def plot_acc_loss(path_prefix, loss, acc):
     
     plt.savefig(os.path.join(path_prefix, 'training_loss_acc.png'))
     plt.draw()
-    plt.show()
+    # plt.show()
 
 def plot_embedding_with_label(data, label, epoch, title):
     """
@@ -55,7 +55,7 @@ def plot_embedding_with_label(data, label, epoch, title):
     # 遍历所有样本
     for i in range(data.shape[0]):
         # 在图中为每个数据点画出标签
-        plt.text(data[i, 0], data[i, 1], str(label[i]), color=plt.cm.Set1(label[i] / 24),
+        plt.text(data[i, 0], data[i, 1], str(label[i]), color=plt.cm.Set1(label[i] / 41),
                  fontdict={'weight': 'bold', 'size': 10})
     # 指定坐标的刻度
     plt.xticks()        
@@ -83,7 +83,7 @@ def plot_embedding_with_circle(data, label, epoch, title):
     fig.set_size_inches(21.6, 14.4)
     plt.axis('off')
     for i in range(data.shape[0]):
-        plt.scatter(data[i,0], data[i,1], c=plt.cm.Set1(label[i] / 24), marker='o', edgecolors='none')
+        plt.scatter(data[i,0], data[i,1], c=plt.cm.Set1(label[i] / 41), marker='o', edgecolors='none')
     plt.savefig('./plots/figure_circle_' + epoch + '.png')
     plt.show()
 

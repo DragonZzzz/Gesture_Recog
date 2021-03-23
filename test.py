@@ -1,3 +1,5 @@
+import matplotlib 
+matplotlib.use('Agg')
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -12,8 +14,8 @@ import os
 import argparse
 import numpy as np 
 
-from datasets.hand_dataset import TrainDataset, TestDataset
-from datasets.hand_dataset import make_train_test_split_random
+from datasets.sign_dataset import TrainDataset, TestDataset
+from datasets.sign_dataset import make_train_test_split
 import config
 from models.resnet import resnet50, resnet18 
 from models.densenet import densenet121

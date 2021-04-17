@@ -14,15 +14,15 @@ import os
 import argparse
 import numpy as np 
 
-from datasets.sign_dataset import TrainDataset, TestDataset
-from datasets.sign_dataset import make_train_test_split
+from datasets.asl_dataset import TrainDataset, TestDataset
+from datasets.asl_dataset import make_train_test_split
 import config
 from models.resnet import resnet50, resnet18 
 from models.densenet import densenet121
 from sklearn.manifold import TSNE
 from utils import plot_embedding_with_image, plot_embedding_with_label, plot_embedding_with_circle
 
-def test(model:nn.Sequential, test_loader:torch.utils.data.DataLoader, device:int, args):
+def test(model:nn.Sequential, test_loader:torch.utils.data.DataLoader, num_classes, device:int, args):
     model.eval()
 
     print('Size of Test Set: ', len(test_loader.dataset))
@@ -71,10 +71,10 @@ def test(model:nn.Sequential, test_loader:torch.utils.data.DataLoader, device:in
         
         # kmeans = KMeans(init='k-means++', n_clusters=3, n_init=10)
         epoch = args.restore_from.split('/')[-1].split('.')[0]
-        embedding = tsne.fit_transform(features)
-        plot_embedding_with_label(embedding, y_gd, epoch, 't-SNE visualization')
-        plot_embedding_with_image(embedding, X_in, epoch, 't-SNE visualization')
-        plot_embedding_with_circle(embedding, y_gd, epoch, 't-SNE visualization')
+        embedding = tsne.fit_transform(features) # (len(test_loader), 2)
+        # plot_embedding_with_label(embedding, y_gd, epoch, num_classes, 't-SNE visualization')
+        # plot_embedding_with_image(embedding, X_in, epoch, num_classes, 't-SNE visualization')
+        plot_embedding_with_circle(embedding, y_gd, epoch, num_classes, 't-SNE visualization')
     return test_loss, test_acc
 
 def parse_args():
@@ -99,6 +99,9 @@ if __name__ == "__main__":
         data_info = json.load(f)
         x_train,x_test,y_train,y_test = data_info['x_train'], data_info['x_test'], data_info['y_train'], data_info['y_test']
 
+
+    # x_test = x_test[:1000]
+    # y_test = y_test[:1000]
     # 准备数据加载器
     test_loader = DataLoader(TestDataset(x_test, y_test), 1, shuffle=False)
     
@@ -124,7 +127,7 @@ if __name__ == "__main__":
         ckpt = torch.load(restore_from)
         model.load_state_dict(ckpt['model_state_dict'])
         print('Model is loaded from %s' % (restore_from))
-    test_loss, test_score = test(model, test_loader, device, args)
+    test_loss, test_score = test(model, test_loader, num_classes, device, args)
 
 
     print('*********** Testing Finished **************')

@@ -39,7 +39,7 @@ def plot_acc_loss(path_prefix, loss, acc):
     plt.draw()
     # plt.show()
 
-def plot_embedding_with_label(data, label, epoch, title):
+def plot_embedding_with_label(data, label, epoch, num_class, title):
     """
     :param data:数据集
     :param label:样本标签
@@ -65,7 +65,7 @@ def plot_embedding_with_label(data, label, epoch, title):
     plt.show()
     
 
-def plot_embedding_with_image(data, images, epoch, title):
+def plot_embedding_with_image(data, images, epoch, num_class, title):
 
     fig, ax = plt.subplots()
     fig.set_size_inches(21.6, 14.4)
@@ -75,7 +75,7 @@ def plot_embedding_with_image(data, images, epoch, title):
     plt.show()
 
 
-def plot_embedding_with_circle(data, label, epoch, title):
+def plot_embedding_with_circle(data, label, epoch,num_class,  title):
     # 对数据进行归一化处理
     x_min, x_max = np.min(data, 0), np.max(data, 0)
     data = (data - x_min) / (x_max - x_min)  
@@ -85,6 +85,41 @@ def plot_embedding_with_circle(data, label, epoch, title):
     for i in range(data.shape[0]):
         plt.scatter(data[i,0], data[i,1], c=plt.cm.Set1(label[i] / 41), marker='o', edgecolors='none')
     plt.savefig('./plots/figure_circle_' + epoch + '.png')
+    plt.show()
+
+
+# def plot_embedding_with_circle(data, label, epoch,num_class,  title):
+#     # 对数据进行归一化处理
+#     x_min, x_max = np.min(data, 0), np.max(data, 0)
+#     data = (data - x_min) / (x_max - x_min)  
+#     fig, ax = plt.subplots()
+#     fig.set_size_inches(21.6, 14.4)
+#     plt.axis('off')
+#     for i in range(data.shape[0]):
+#         plt.scatter(data[i,0], data[i,1], c=plt.cm.Set1(label[i] / 41), marker='o', edgecolors='none')
+#     plt.savefig('./plots/figure_circle_' + epoch + '.png')
+#     plt.show()
+
+def plot_embedding_with_circle(data, label, epoch, num_class,  title):
+    # 对数据进行归一化处理
+    select_label = [3, 7, 11]
+    new_data = []
+    new_label = []
+    color_map = [(1.0, 0, 0, 1.0), (0, 1.0, 0, 1.0), (0, 0, 1.0, 1.0)]
+    for i in range(data.shape[0]):
+        if label[i] in select_label:
+            new_data.append(data[i])
+            new_label.append(label[i])
+    new_data = np.array(new_data)
+    x_min, x_max = np.min(new_data, 0), np.max(new_data, 0)
+    new_data = (new_data - x_min) / (x_max - x_min)  
+    fig, ax = plt.subplots()
+    fig.set_size_inches(21.6, 14.4)
+    plt.axis('off')
+    for i in range(new_data.shape[0]):
+        print(plt.cm.Set1(new_label[i] / 3))
+        plt.scatter(new_data[i,0], new_data[i,1], c=color_map[new_label[i] % len(color_map)], marker='o', edgecolors='none')
+    plt.savefig('./plots/figure_2circle_' + epoch + '.png')
     plt.show()
 
 def imscatter(x, y, images, ax=None, zoom=1):

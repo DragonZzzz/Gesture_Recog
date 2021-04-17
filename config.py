@@ -1,5 +1,5 @@
-img_w = 256
-img_h = 256
+img_w = 64
+img_h = 64
 
 batch_size = 128
 learning_rate = 1e-7   # 网络学习率

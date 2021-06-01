@@ -6,7 +6,7 @@ learning_rate = 1e-7   # 网络学习率
 epoches = 40 # 网络训练迭代次数
 log_interval = 2 # 打印间隔，默认每2个batch_size打印一次
 save_interval = 2 # 模型保存间隔，默认每个epoch保存一次
-num_classes = 41 # 训练分类类别数量
+num_classes = 24 # 训练分类类别数量， asl:24, signdata:41
 model_name = 'resnet18' # 分类网络
 experiments_name = '0313_signdataset_1e-7_256_crop'
 

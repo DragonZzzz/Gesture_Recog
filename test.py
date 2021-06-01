@@ -20,7 +20,7 @@ import config
 from models.resnet import resnet50, resnet18 
 from models.densenet import densenet121
 from sklearn.manifold import TSNE
-from utils import plot_embedding_with_image, plot_embedding_with_label, plot_embedding_with_circle
+from utils import plot_embedding_with_image, plot_embedding_with_label, plot_embedding_with_circle, plot_multi_label_circle
 
 def test(model:nn.Sequential, test_loader:torch.utils.data.DataLoader, num_classes, device:int, args):
     model.eval()
@@ -74,7 +74,8 @@ def test(model:nn.Sequential, test_loader:torch.utils.data.DataLoader, num_class
         embedding = tsne.fit_transform(features) # (len(test_loader), 2)
         # plot_embedding_with_label(embedding, y_gd, epoch, num_classes, 't-SNE visualization')
         # plot_embedding_with_image(embedding, X_in, epoch, num_classes, 't-SNE visualization')
-        plot_embedding_with_circle(embedding, y_gd, epoch, num_classes, 't-SNE visualization')
+        # plot_embedding_with_circle(embedding, y_gd, epoch, num_classes, 't-SNE visualization')
+        plot_multi_label_circle(embedding, y_gd, epoch, num_classes, 't-SNE visualization')
     return test_loss, test_acc
 
 def parse_args():

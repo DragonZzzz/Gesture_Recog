@@ -27,14 +27,14 @@ from PIL import Image
 
 def infer(model:nn.Sequential, image_path, num_classes, device:int, args):
     lookup = {}
-    path_dir = './original_images/original_images'
+    path_dir = 'E:\研2018-代码合集\王恒毅\实验数据集\ASL\\archive\dataset5/A'
     idx = 0
     for classname in os.listdir(path_dir):
         lookup[idx] = classname
         idx += 1
     model.eval()
     transform = transforms.Compose([
-            transforms.Resize((384, 384)),
+            transforms.Resize((224, 224)),
             transforms.CenterCrop((config.img_w, config.img_h)), 
             transforms.ToTensor(),
             transforms.Normalize(
@@ -59,8 +59,8 @@ def infer(model:nn.Sequential, image_path, num_classes, device:int, args):
         cv2.imwrite(os.path.join(save_dir, 'demo.jpg'), image_ori)
 def parse_args():
     parser = argparse.ArgumentParser(usage='python3 train.py -i path/to/data -r path/to/checkpoint')
-    parser.add_argument('-i', '--image_path', help='path to your datasets', default='./original_images/original_images/1/d0.jpg')
-    parser.add_argument('-r', '--restore_from', help='path to the checkpoint', default=None)
+    parser.add_argument('-i', '--image_path', help='path to your datasets', default='E:\研2018-代码合集\王恒毅\实验数据集\ASL\\archive\dataset5\D\\a//color_0_0002.png')
+    parser.add_argument('-r', '--restore_from', help='path to the checkpoint', default='E:\研2018-代码合集\王恒毅\训练模型\0226_asl_lr3e-7_64\0226_asl_lr3e-7_64\ep-39.pth')
     parser.add_argument('-v', '--visualization', help='whether to generate clustering visualization', action='store_true')
     parser.add_argument('-o', '--output_dir', help='The dir to save the demo file', default='./demo_output')
     args = parser.parse_args()

@@ -15,27 +15,27 @@ def plot_acc_loss(path_prefix, loss, acc):
  
     # set labels
     host.set_xlabel("steps")
-    host.set_ylabel("test-loss")
-    par1.set_ylabel("test-accuracy")
+    host.set_ylabel("E")
+    # par1.set_ylabel("test-accuracy")
  
     # plot curves
-    p1, = host.plot(range(len(loss)), loss, label="loss")
-    p2, = par1.plot(range(len(acc)), acc, label="accuracy")
+    p1, = host.plot(range(len(loss)), loss, label="E")
+    # p2, = par1.plot(range(len(acc)), acc)
  
     # set location of the legend,
     # 1->rightup corner, 2->leftup corner, 3->leftdown corner
     # 4->rightdown corner, 5->rightmid ...
     host.legend(loc=5)
- 
+    
     # set label color
     host.axis["left"].label.set_color(p1.get_color())
-    par1.axis["right"].label.set_color(p2.get_color())
+    # par1.axis["right"].label.set_color(p2.get_color())
  
     # set the range of x axis of host and y axis of par1
     # host.set_xlim([-200, 5200])
-    par1.set_ylim([-0.1, 1.1])
-    
-    plt.savefig(os.path.join(path_prefix, 'training_loss_acc.png'))
+    par1.set_ylim([0, 1.1])
+    plt.yticks([])
+    plt.savefig(os.path.join(path_prefix, 'training_loss_acc2.png'))
     plt.draw()
     # plt.show()
 
@@ -100,6 +100,38 @@ def plot_embedding_with_circle(data, label, epoch,num_class,  title):
 #     plt.savefig('./plots/figure_circle_' + epoch + '.png')
 #     plt.show()
 
+
+def plot_enbedding_with_select_label(data, label, epoch, num_class, title, select_label):
+    # 对数据进行归一化处理
+    select_label_str = [str(label) for label in select_label]
+    new_data = []
+    new_label = []
+    color_map = [(1.0, 0, 0, 1.0), (0, 1.0, 0, 1.0), (0, 0, 1.0, 1.0)]
+    for i in range(data.shape[0]):
+        if label[i] in select_label:
+            new_data.append(data[i])
+            new_label.append(label[i])
+    new_data = np.array(new_data)
+    x_min, x_max = np.min(new_data, 0), np.max(new_data, 0)
+    new_data = (new_data - x_min) / (x_max - x_min)  
+    fig, ax = plt.subplots()
+    fig.set_size_inches(21.6, 14.4)
+    plt.axis('off')
+    for i in range(new_data.shape[0]):
+        plt.scatter(new_data[i,0], new_data[i,1], c=color_map[new_label[i] % len(color_map)], marker='o', edgecolors='none')
+    plt.savefig('./plots/figure_circle_{}_{}_{}.png'.format(epoch, len(select_label), '.'.join(select_label_str)))
+
+def plot_multi_label_circle(data, label, epoch, num_class,  title):
+    # 对数据进行归一化处理
+    # plot_enbedding_with_select_label(data, label, epoch, num_class,  title, [3, 7, 11])
+    # plot_enbedding_with_select_label(data, label, epoch, num_class,  title, [0, 4, 8])
+    # plot_enbedding_with_select_label(data, label, epoch, num_class,  title, [1, 5, 9])
+    # plot_enbedding_with_select_label(data, label, epoch, num_class,  title, [2, 6, 10])
+    plot_enbedding_with_select_label(data, label, epoch, num_class,  title, [4, 8])
+    plot_enbedding_with_select_label(data, label, epoch, num_class,  title, [7,11])
+    plot_enbedding_with_select_label(data, label, epoch, num_class,  title, [10, 14])
+    plot_enbedding_with_select_label(data, label, epoch, num_class,  title, [13, 17])
+
 def plot_embedding_with_circle(data, label, epoch, num_class,  title):
     # 对数据进行归一化处理
     select_label = [3, 7, 11]
@@ -117,7 +149,6 @@ def plot_embedding_with_circle(data, label, epoch, num_class,  title):
     fig.set_size_inches(21.6, 14.4)
     plt.axis('off')
     for i in range(new_data.shape[0]):
-        print(plt.cm.Set1(new_label[i] / 3))
         plt.scatter(new_data[i,0], new_data[i,1], c=color_map[new_label[i] % len(color_map)], marker='o', edgecolors='none')
     plt.savefig('./plots/figure_2circle_' + epoch + '.png')
     plt.show()
@@ -140,6 +171,6 @@ def imscatter(x, y, images, ax=None, zoom=1):
 
 
 if __name__ == "__main__":
-    with open('./checkpoints/0217_lr1e-5_resnet18/train_info.json') as f:
+    with open('./checkpoints/0313_signdataset_1e-7_256_crop/train_info.json') as f:
         train_info = json.load(f)
     plot_acc_loss('./', train_info['test_losses'], train_info['test_scores'])

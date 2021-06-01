@@ -57,6 +57,7 @@ def infer(model:nn.Sequential, image_path, num_classes, device:int, args):
         save_dir = args.output_dir
         cv2.putText(image_ori, class_name, (30,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
         cv2.imwrite(os.path.join(save_dir, 'demo.jpg'), image_ori)
+
 def parse_args():
     parser = argparse.ArgumentParser(usage='python3 train.py -i path/to/data -r path/to/checkpoint')
     parser.add_argument('-i', '--image_path', help='path to your datasets', default='E:\研2018-代码合集\王恒毅\实验数据集\ASL\\archive\dataset5\D\\a//color_0_0002.png')

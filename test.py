@@ -80,8 +80,8 @@ def test(model:nn.Sequential, test_loader:torch.utils.data.DataLoader, num_class
 
 def parse_args():
     parser = argparse.ArgumentParser(usage='python3 train.py -i path/to/data -r path/to/checkpoint')
-    parser.add_argument('-i', '--data_path', help='path to your datasets', default='./data')
-    parser.add_argument('-r', '--restore_from', help='path to the checkpoint', default=None)
+    parser.add_argument('-i', '--data_path', help='path to your datasets', default='E:\研2018-代码合集\王恒毅\实验数据集\ASL\\archive\dataset5\D\\a//color_0_0002.png')
+    parser.add_argument('-r', '--restore_from', help='path to the checkpoint', default='E:\研2018-代码合集\王恒毅\训练模型\0226_asl_lr3e-7_64\0226_asl_lr3e-7_64\ep-39.pth')
     parser.add_argument('-v', '--visualization', help='whether to generate clustering visualization', action='store_true')
     args = parser.parse_args()
     return args
@@ -92,8 +92,8 @@ if __name__ == "__main__":
     restore_from = args.restore_from
     base_model = config.model_name
     num_classes = config.num_classes
-    data_split = '/'.join(restore_from.split('/')[:-1]) + '/data_info.json'
-    # data_split = './checkpoints/0217_lr1e-5_resnet18/data_info.json'
+    # data_split = '/'.join(restore_from.split('/')[:-1]) + '/data_info.json'
+    data_split = 'E:\研2018-代码合集\王恒毅\训练模型\0226_asl_lr3e-7_64\0226_asl_lr3e-7_64\ep-39.pth\data_info.json'
     
     # 划分训练集和测试集
     with open(data_split, 'r') as f:
